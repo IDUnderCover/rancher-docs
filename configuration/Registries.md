@@ -8,50 +8,52 @@
 
 点击 **Infrastructure** 然后进入 **Registries** 页面，点击 **Add Registry**。 
 
-对于所有的镜像仓库，For all registries, you'll need to provide the **e-mail address**, **username**, and **password**. For a **Custom** registry, you'll need to also provide the **registry address**. Click on **Create**.
+对于所有的镜像仓库，您将需要输入 **e-mail address**, **username**, 和 **password** 等信息。对于一个 **Custom** 镜像仓库，您还将需要提供 **registry address**。然后点击 **Create**.
 
-If you add a credential for an address that already exists, Rancher will start using the new credentials.  
+如果您所添加的访问账号信息的地址已经存在了，Rancher 将会开始使用这个新添加的。 
 
-#### Insecure Registries
+#### 非加密镜像仓库
 
-In order to access an insecure registry, you'll need to configure your Docker daemon on your host(s). `DOMAIN` and `PORT` are the domain and port where the private registry is hosted.
+为了访问一个非加密镜像仓库，你讲需要配置所有主机的 Docker 后台访问。 `DOMAIN` 和 `PORT` 是提供私有镜像仓库服务主机的域名和端口。
 
-> **Note:** Whenever you restart docker on the host, you may encounter issues with Network Agent being stuck in _Starting_ state. To workaround the issue, please reboot the host.
+> **注意:** 任何石油重启主机的 Docker 服务，您都可能会语调网络代理被卡在 _Starting_ 状态的问题。为了临时解决这个问题，请重启主机。
 
 ```bash
-# Edit the config file "/etc/default/docker"
+# 编辑配置文件 "/etc/default/docker"
 $ sudo vi /etc/default/docker
-# Add this line at the end of file. If there are already options, make sure you append it to the current option list.
+# 在文件结束处添加添加下面这行。如果已经有这行了，则确保把下面的参数加载最后。
 $ DOCKER_OPTS="$DOCKER_OPTS --insecure-registry=${DOMAIN}:${PORT}"
-# Restart the docker service
+# 重启 Docker 服务
 $ sudo service docker restart
 ```
 
-#### Self Signed Certificates
+#### 自签名证书
 
-In order to use a self signed certificate with a registry, you'll need to configure your Docker daemon on your host(s). `DOMAIN` and `PORT` are the domain and port where the private registry is hosted.
+为了与私有镜像仓库使用一个自签发证书。`DOMAIN` 和 `PORT` 是私有镜像仓库服务所在的地址。
 
 ```bash
-# Download the certificate from the domain
+# 从该域名下载证书
 $ openssl s_client -showcerts -connect ${DOMAIN}:${PORT} </dev/null 2>/dev/null|openssl x509 -outform PEM >ca.crt
-# Copy the certificate to the appropriate directories
+# 复制这个证书文件到对应的目录
 $ sudo cp ca.crt /etc/docker/certs.d/${DOMAIN}/ca.crt
-# Append the certificate to a file
+# 附加这个证书到一个文件内容末尾
 $ cat ca.crt | sudo tee -a /etc/ssl/certs/ca-certificates.crt
-# Restart the docker service to have the changes take affect
+# 重启 Docker 服务使之生效
 $ sudo service docker restart
 
 ```
 
-### Using Registries
+### 使用镜像仓库
 
-As soon as the registry is created, you will be able to use these private registries when launching services and containers. The syntax for the image name is the same as what you would use for the `docker run` command.
+在镜像仓库被创建之后，你将能在启动服务或者容器的时候使用这些私有镜像仓库。镜像名称的语法是与您在`docker run` 命令中是相同的。
 
 `[registry-name]/[namespace]/[imagename]:[version]`
 
-By default, we are assuming that you are trying to pull images from `DockerHub`. 
+默认情况下，我们假设您总是从`DockerHub`来下拉镜像。
 
-### Editing Registries
+### 编辑镜像仓库
+
+在镜像仓库清单中的
 
 All options for a registry are accessible through the dropdown menu on the right hand side of the listed registry.
 
