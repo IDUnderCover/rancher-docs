@@ -13,11 +13,11 @@
 ```yaml
 service1:
   image: wordpress
-  # If the other service is in the same stack
+  # 如果另外的服务是在同一个应用堆栈中
   links:
     # <service_name>:<service_alias>
     - service2:mysql
-  # If the other service is in a different stack
+  # 如果另外的服务是在不同的应用堆栈中
   external_links:
     # <service_name>:<service_alias>
     - service3:mysql
@@ -37,7 +37,7 @@ service1:
 ## 例子
 ---
 
-### Pinging 同一栈内的服务
+### Ping 同一栈里的服务
 
 如果你 exec 进入容器的 shell，你能通过服务名 ping 同一栈内的其他服务。
 
@@ -53,7 +53,7 @@ PING bar.stacka.rancher.internal (10.42.x.x) 58(84) bytes of data.
 64 bytes from 10.42.x.x: icmp_seq=3 ttl=62 time=1.07 ms
 ```
 
-### Pinging 不同栈内的服务
+### Ping 不同栈里的服务
 
 对于不同栈内的服务，你能通过使用 `<service_name>.<stack_name>` ping 不同栈内的服务。
 
@@ -69,7 +69,7 @@ PING bar.stackb (10.42.x.x) 56(84) bytes of data.
 64 bytes from 10.42.x.x: icmp_seq=3 ttl=62 time=1.27 ms
 ```
 
-### Pinging 伙伴服务
+### Ping 伙伴服务
 
 取决于你从哪个服务发起 ping，你能通过 `<sidekick_name>` 或 `<sidekick_name>.<primary_service_name>` 到达伙伴服务。
 
@@ -89,7 +89,7 @@ PING bar.foo.stacka.rancher.internal (10.42.x.x) 56(84) bytes of data.
 如果我们 exec 进入 `hello` 服务的一个容器，在同一个栈内，你能通过 `foo` ping `foo` 服务，通过 `bar.foo` ping `bar` 伙伴服务。
 
 ```bash
-# Inside one of the containers in the `hello` service, which is not part of the service/sidekick service
+# 在`hello` 服务中的一个容器内部，它不属于 service/sidekick 服务的一部分
 # Ping the primary service (i.e. foo)
 $ ping foo
 PING foo.stacka.rancher.internal (10.42.x.x) 56(84) bytes of data.
