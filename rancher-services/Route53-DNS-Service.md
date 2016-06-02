@@ -45,15 +45,16 @@ fqdn=<serviceName>.<stackName>.<environmentName>.<yourHostedZoneName>
 > **注意:** 在`route53` 服务启动了以后，对于已经部署了的有主机端口的服务将也会得到一个 fqdn。
 
 
-### Removing Route53 Service
+### 删除 Route53 服务
 
-When the `route53` service is removed from Rancher, the record sets in Amazon Route 53 is **NOT** removed. Those will need to be manually removed by yourself in your Amazon account. 
+当从 Rancher 中删除了`route53` 服务之后，Amazon Route 53中的 Record Set 将 **不会** 被自动删除。它们还是需要登录了您的 Amazon AWS 账号之后再手工删除掉。
 
-### Using a Specific IP for External DNS
+### 为外部 DNS 使用特定的 IP
 
-By default, Rancher DNS picks the host IP, that is registered in Rancher server, to be used for exposing services. There will be use cases where hosts have been configured in Rancher using a private network, but these hosts will need to expose services using external DNS through the public network. In cases where you would like to specify the IP to be used for external DNS, you will need to add a [host label]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/#host-labels) before launching your external DNS service.
+默认，Rancher DNS 所使用的主机IP，是注册到 Rancher 中是所指定的IP。这里会有这样一种用例，被配置在 Rancher 中的主机使用私有网络通信，而这个主机将需要通过外部 DNS 使用公网 IP 来对外暴露服务。在这种情况下在你需要制定外部 DNS 所使用的IP，您需要在使用外部 DNS 服务前为主机添加 [主机标签]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/#host-labels) 。
 
-Before launching external DNS services, please add the following label to your host. The value of the label is what Rancher's Route53 DNS service will use when programming rules. If this label is not set on the host, Rancher's Route53 DNS service will automatically use the host IP that is displayed in Rancher.
+在你启动外部 DNS 服务之前，请添加下面的主机标签。标签的值是 Rancher 的 Route 53
+服务会用到的。如果没有设置这个标签的话，Rancher 的 Route53 DNS 服务器就会直接使用主机 IP。
 
 ```
 io.rancher.host.external_dns_ip=<IP_TO_BE_USED_FOR_EXTERNAL_DNS>
