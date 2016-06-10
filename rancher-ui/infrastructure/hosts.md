@@ -30,14 +30,14 @@ IPSec 密钥是每个 [环境]()独有的。他由服务端生成，存储在数
 
 选择你想添加的何种主机类型：
 
-* [添加自定义主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/custom/)
-* [添加 Amazon EC2 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/amazon/)
-* [添加 Azure 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/azure/)
-* [添加 DigitalOcean 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/digitalocean/)
-* [添加 Exoscale 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/exoscale/)
-* [添加 Packet 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/packet/)
-* [添加 Rackspace 主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/rackspace/)
-* [添加其他驱动的主机]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/other/)
+* [添加自定义主机]()
+* [添加 Amazon EC2 主机]()
+* [添加 Azure 主机]()
+* [添加 DigitalOcean 主机]()
+* [添加 Exoscale 主机]()
+* [添加 Packet 主机]()
+* [添加 Rackspace 主机]()
+* [添加其他驱动的主机]()
 
 当一台主机加入 Rancher，rancher 代理端将会在主机上启动。Rancher 将会自动拉取 `rancher/agent` 的正确镜像版本标签并运行所需的版本。对于每个 Rancher 服务端版本，代理端版本都被明确标记。
 
@@ -58,12 +58,12 @@ IPSec 密钥是每个 [环境]()独有的。他由服务端生成，存储在数
 _例子_
 
 ```bash
-# Adding one host label to the rancher/agent command
+# 添加一个主机标签到 rancher/agent 命令中
 $  sudo docker run -e CATTLE_HOST_LABELS='foo=bar' -d --privileged \
     -v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
     http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
 
-# Adding more than one host label requires joining the additional host labels with an `&`
+# 添加多于一个主机标签需要使用 `&` 连接多余的主机标签
 $  sudo docker run -e CATTLE_HOST_LABELS='foo=bar&hello=world' -d --privileged \
     -v /var/run/docker.sock:/var/run/docker.sock rancher/agent:v0.8.2 \
     http://<rancher-server-ip>:8080/v1/projects/1a5/scripts/<registrationToken>
@@ -71,51 +71,52 @@ $  sudo docker run -e CATTLE_HOST_LABELS='foo=bar&hello=world' -d --privileged \
 
 <br>
 
-> **注意：** The `rancher/agent` version is correlated to the Rancher server version. You will need to check the custom command to get the appropriate tag for the version to use. 
+> **注意：** `rancher/agent` 的版本与 Rancher 服务端的版本相关联。你需要检查自定义命令以便获取所使用版本的正确标识。
 
-#### Automatically Applied Host Labels
+#### 自动实现的主机标签
 
-Rancher automatically creates host labels related to linux kernel version and Docker Engine version of the host. 
+Rancher 自动创建关于 Linux 内核版本和 Docker Engine 版本的主机标签。
 
-Key | Value | Description
+Key | Value | 描述
 ----|----|----
-`io.rancher.host.linux_kernel_version` | Linux Kernel Version on Host (e.g, `3.19`) |  Version of the Linux kernel running on the host
-`io.rancher.host.docker_version` | Docker Version on the host (e.g. `1.10.3`) | Docker Engine Version on the host
+`io.rancher.host.linux_kernel_version` | 主机的 Linux 内核版本(例如： `3.19`) |  主机上运行的 Linux 内核的版本
+`io.rancher.host.docker_version` | 主机的 Docker 版本 (例如： `1.10.3`) | 主机上的 Docker Engine 版本
 
 
-### Hosts behind a Proxy
-To support hosts behind a proxy, you'll need to edit the Docker daemon to point to the proxy. The detailed instructions are listed within our [adding custom host page]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-ui/infrastructure/hosts/custom/#hosts-behind-a-proxy).
+### 代理后的主机
+为了支持代理后面的主机，你需要编辑 Docker daemon 来指向代理。详细指导列在我们的 [添加自定义主机 ]()页面
 
 <a id="machine-config"></a>
 
-### Accessing hosts from the Cloud Providers 
-After Rancher launches the host, you may want to be able to access the host. We provide all the certificates generated when launching the machine in an easy to download file. Click on **Machine Config** in the host's dropdown menu. It will download a tar.gz file that has all the certificates.
+### 访问来自于云提供商的主机
+在 Rancher 启动主机后，你可能需要访问主机。我们提供了所有在启动设备时生成的证书，可通过下载方式获取。在主机的下拉菜单中点击 **Machine Config**。那将会下载一个包含所有证书的 tar.gz 文件。
 
-To SSH into your host, go to your terminal/command prompt. Navigate to the folder of all the certificates and ssh in using the `id_rsa` certificate.
+为了 SSH 进入你的主机，进入你的终端/命令行。进入所有证书存放的文件夹，然后通过使用 `id_rsa` 证书以便 ssh 进入主机。
 
 ```bash
 $ ssh -i id_rsa root@<IP_OF_HOST>
 ```
 
-## Cloning a Host
+## 克隆主机
 ---
 
-Since launching hosts on cloud providers requires using an access key, you might want to easily create another host without needing to input all the credentials again. Rancher provides the ability to clone these credentials to spin up a new host. Select **Clone** from the host's drop down menu. It will bring up an **Add Host** page with the credentials of the cloned host populated.
+由于启动云提供商上的主机需要使用 access key，你可能想要更简单的创建另一个主机而不需要再次输入所有的证书。Rancher 提供了通过克隆这些证书来启动一个新主机的功能。从主机的下拉菜单中选择 **Clone**。那将会引向 **Add Host** 页面并带有克隆主机的所使用的证书。
 
-## Editing Hosts
+## 编辑主机
 ---
 
-The options for what can be done to a host are located in the host's dropdown. From the **Infrastructure** -> **Hosts** page, the dropdown icon will appear when you hover over the host. If you click on the host name to view more details of a host, the dropdown icon is located in the upper right corner of the page. It's located next to the State of the host.
+所有能对主机做的操作选项都位于主机的下拉菜单中。在 **Infrastructure** -> **Hosts** 页面中，下拉标识将会在你鼠标放置在主机上时出现。如果你点击主机名字来查看主机的更多信息，下拉标识将会出现在页面的右上角。它将会位于主机状态的旁边。
 
-If you select **Edit**, you can update the name, description or labels on the host. 
+如果你选择 **Edit**，你能更新名字，描述或主机的标签。
 
-### Deactivating/Activating Hosts
 
-Deactivating the host will put the host into an _Inactive_ state. In this state, no new containers can be deployed. Any active containers on the host will continue to be active and you will still have the ability to perform actions on these containers (start/stop/restart). The host will still be connected to the Rancher server. Select **Deactivate** from the host's dropdown menu.
+### 停用/激活主机
 
-When a host is in the _Inactive_ state, you can bring the host back into an _Active_ state by clicking on **Activate** from the host's dropdown menu.
+停用主机将使主机进入 _Inactive_ 状态。在此状态中，将不会部署新的容器。任何此主机上的活动的容器将会保持激活，并且你仍然能够对这些容器执行操作（开始/停止/重启）。主机将仍然连接到 Rancher 服务端。从主机的的下拉菜单中选择 **Deactivate**。
 
-> **Note:** If a host is down in Rancher (i.e. in `reconnecting` or `inactive` state), you will need to implement a [health check]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/rancher-services/health-checks/) in order for Rancher to launch the containers on your service on to a different host.
+当主机处于 _Inactive_ 状态，你能通过点击主机下拉菜单中的 **Activate** 使主机重回 _Active_ 状态。
+
+> **注意：** 如何在 Rancher 中一台主机失效 (例如 处于 `reconnecting` 或 `inactive` 状态)，你将需要执行 [健康检查]() 以便 Rancher 在其他不同的主机上启动你服务中的容器。
 
 ## 删除主机
 ---
