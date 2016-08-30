@@ -64,7 +64,7 @@ $ docker run -it --name=second_container ubuntu:14.04.2
 
 在图形界面中，你将看到 **_second_container_** 在你的主机上出现！如果你通过退出命令行来退出用命令方式创建的容器，在 Rancher 图形界面中将立刻显示这个容器的状态为停止。
 
-Rancher 可以对带外发生的事件作出反应，并把当前的显示状况如实地整合在它的视图中。你能了解更多信息在 [使用 Docker 原生命令行]({{site.baseurl}}/rancher/{{page.version}}/{{page.lang}}/native-docker/) 这一章。
+Rancher 可以对带外发生的事件作出反应，并把当前的显示状况如实地整合在它的视图中。你能了解更多信息在 [使用 Docker 原生命令行]({{site.baseurl}}/{{page.version}}/{{page.lang}}/native-docker/) 这一章。
 
 如果你查看容器 **_second_container_** 的 IP 地址，你会注意到他不在 `10.42.*.*` 网段中。它的 IP 地址是通过 Docker 后台服务获得的。这是通过命令行方式创建容器的正常的结果。
 
